@@ -1,0 +1,23 @@
+{
+    "compilerOptions": {
+      "target": "esnext",
+      "useDefineForClassFields": false,
+      "experimentalDecorators": true,
+      "emitDecoratorMetadata": true,
+      "module": "esnext",
+      "lib": ["esnext", "DOM"],
+      "strictPropertyInitialization": false,
+      "moduleResolution": "Node",
+      "strict": true,
+      "resolveJsonModule": true,
+      "isolatedModules": true,
+      "esModuleInterop": true,
+      "noEmit": true,
+      "noUnusedLocals": true,
+      "noUnusedParameters": true,
+      "noImplicitReturns": true,
+      "skipLibCheck": true
+    },
+    "include": ["src","./ps.d.ts"]
+  }
+  
