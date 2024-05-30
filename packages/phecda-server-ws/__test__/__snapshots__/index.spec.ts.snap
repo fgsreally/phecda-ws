@@ -1,0 +1,84 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`WSGenerator 1`] = `
+"
+        export class TestWs{
+            
+    add(...args){
+return {tag:"TestWs",func:"add",args}
+    }
+    
+            }"
+`;
+
+exports[`meta 1`] = `
+[
+  Meta {
+    "data": {
+      "controller": "ws",
+      "ctx": "context",
+      "define": {},
+      "filter": undefined,
+      "func": "add",
+      "guards": [],
+      "interceptors": [],
+      "name": "TestWs",
+      "params": [
+        {
+          "define": {},
+          "index": 0,
+          "key": "0",
+          "pipe": undefined,
+          "type": "args",
+        },
+      ],
+      "plugins": [],
+      "tag": "TestWs",
+      "ws": {
+        "on": true,
+      },
+    },
+    "paramsType": [
+      [Function],
+    ],
+  },
+]
+`;
+
+exports[`meta when bind 1`] = `
+[
+  Meta {
+    "data": {
+      "controller": "ws",
+      "ctx": "context",
+      "define": {},
+      "filter": undefined,
+      "func": "add",
+      "guards": [
+        "a",
+      ],
+      "interceptors": [
+        "a",
+      ],
+      "name": "TestWs",
+      "params": [
+        {
+          "define": {},
+          "index": 0,
+          "key": "0",
+          "pipe": undefined,
+          "type": "args",
+        },
+      ],
+      "plugins": [],
+      "tag": "TestWs",
+      "ws": {
+        "on": true,
+      },
+    },
+    "paramsType": [
+      [Function],
+    ],
+  },
+]
+`;

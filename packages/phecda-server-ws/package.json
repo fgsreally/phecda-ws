@@ -13,10 +13,13 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "phecda-server": "5.0.0-beta.32",
+    "debug": "^4.3.4",
+    "phecda-server": "^5.0.0",
     "ws": "^8.17.0"
   },
   "devDependencies": {
-    "@types/ws": "^8.5.10"
+    "@types/debug": "^4.1.12",
+    "@types/ws": "^8.5.10",
+    "tsup": "^8.0.2"
   }
 }

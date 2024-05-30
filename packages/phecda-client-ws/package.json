@@ -2,11 +2,19 @@
   "name": "phecda-client-ws",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "dist/index.js",
+  "module": "dist/index.mjs",
+  "types": "dist/index.d.ts",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "dev": "tsup --watch",
+    "build": "tsup"
   },
   "keywords": [],
   "author": "",
-  "license": "ISC"
+  "license": "ISC",
+  "devDependencies": {
+    "phecda-server": "^5.0.0",
+    "phecda-server-ws": "workspace:^",
+    "tsup": "^8.0.2"
+  }
 }
