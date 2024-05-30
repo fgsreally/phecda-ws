@@ -5,7 +5,7 @@
   "main": "index.js",
   "type": "module",
   "scripts": {
-    "test": "cross-env PS_LOG_LEVEL=3 vitest ",
+    "test": "vitest ",
     "dev": "turbo run dev --filter phecda-*",
     "build": "turbo run build --filter phecda-*",
     "lint": "eslint . --ext .ts --fix",
