@@ -13,7 +13,7 @@
   "license": "ISC",
   "dependencies": {
     "@types/ws": "^8.5.10",
-    "phecda-client": "2.0.4-beta.4",
+    "phecda-client": "2.0.4",
     "phecda-client-ws": "workspace:^",
     "phecda-server": "^5.0.0",
     "phecda-server-ws": "workspace:^",

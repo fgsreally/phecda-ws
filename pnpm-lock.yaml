@@ -39,8 +39,8 @@ importers:
         specifier: ^8.5.10
         version: 8.5.10
       phecda-client:
-        specifier: 2.0.4-beta.4
-        version: 2.0.4-beta.4
+        specifier: 2.0.4
+        version: 2.0.4
       phecda-client-ws:
         specifier: workspace:^
         version: link:../packages/phecda-client-ws
@@ -1122,6 +1122,7 @@ packages:
     engines: {node: '>=10'}
     cpu: [arm64]
     os: [linux]
+    libc: [glibc]
     requiresBuild: true
     optional: true
 
@@ -1130,6 +1131,7 @@ packages:
     engines: {node: '>=10'}
     cpu: [arm64]
     os: [linux]
+    libc: [musl]
     requiresBuild: true
     optional: true
 
@@ -1138,6 +1140,7 @@ packages:
     engines: {node: '>=10'}
     cpu: [x64]
     os: [linux]
+    libc: [glibc]
     requiresBuild: true
     optional: true
 
@@ -1146,6 +1149,7 @@ packages:
     engines: {node: '>=10'}
     cpu: [x64]
     os: [linux]
+    libc: [musl]
     requiresBuild: true
     optional: true
 
@@ -3950,8 +3954,8 @@ packages:
     resolution: {integrity: sha512-Dp6zGqpTdETdR63lehJYPeIOqpiNBNtc7BpWSLrOje7UaIsE5aY92r/AunQA7rsXvet3lrJ3JnZX29UPTKXyKQ==}
     dev: false
 
-  /phecda-client@2.0.4-beta.4:
-    resolution: {integrity: sha512-kjQipX9jP+yqOGFmG02v2xtC2VnXXmEtWb6Jc/iP1LmzIBpJaZC1Uk+WvBYqbvwcPJx/W6MQ1azFnZF7Io2jQg==}
+  /phecda-client@2.0.4:
+    resolution: {integrity: sha512-CXvgD3d2N3mmilvEIBW7IfolD4NIz39zH7BuKsdQ4PgkKpfGPwIWS09qkLqMd6CZLX9SL2gPKYBHdEibAXVq9Q==}
     dependencies:
       axios: 1.7.2
       unplugin: 1.10.1
