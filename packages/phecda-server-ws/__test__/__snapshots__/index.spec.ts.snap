@@ -54,12 +54,8 @@ exports[`meta when bind 1`] = `
       "define": {},
       "filter": undefined,
       "func": "add",
-      "guards": [
-        "a",
-      ],
-      "interceptors": [
-        "a",
-      ],
+      "guards": [],
+      "interceptors": [],
       "name": "TestWs",
       "params": [
         {
