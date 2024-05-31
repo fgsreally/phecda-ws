@@ -4,8 +4,7 @@
   "description": "",
   "main": "index.js",
   "type": "module",
-  "private":true,
-
+  "private": true,
   "scripts": {
     "dev": "vite",
     "server": "phecda src/server/server.ts"
