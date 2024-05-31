@@ -4,6 +4,8 @@
   "description": "",
   "main": "index.js",
   "type": "module",
+  "private":true,
+
   "scripts": {
     "dev": "vite",
     "server": "phecda src/server/server.ts"
@@ -15,7 +17,7 @@
     "@types/ws": "^8.5.10",
     "phecda-client": "2.0.4",
     "phecda-client-ws": "workspace:^",
-    "phecda-server": "^5.0.0",
+    "phecda-server": "^5.0.1",
     "phecda-server-ws": "workspace:^",
     "ws": "^8.17.0"
   },

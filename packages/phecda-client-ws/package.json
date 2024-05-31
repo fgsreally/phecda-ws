@@ -15,7 +15,7 @@
   "author": "",
   "license": "ISC",
   "devDependencies": {
-    "phecda-server": "^5.0.0",
+    "phecda-server": "^5.0.1",
     "phecda-server-ws": "workspace:^",
     "tsup": "^8.0.2"
   }

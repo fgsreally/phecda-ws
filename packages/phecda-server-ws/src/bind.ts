@@ -1,15 +1,12 @@
 import type WS from 'ws'
 import { Context, HMR, detectAopDep } from 'phecda-server'
-import type { ControllerMeta, Factory } from 'phecda-server'
+import type { ControllerMeta, DefaultOptions, Factory } from 'phecda-server'
 import Debug from 'debug'
 import type { ClientEvents, WsContext } from './types'
 const debug = Debug('phecda-server/ws')
 
-export function bind(wss: WS.Server, data: Awaited<ReturnType<typeof Factory>>, ServerOptions: {
-  globalGuards?: string[]
-  globalInterceptors?: string[]
-} = {}) {
-  const { globalGuards = [], globalInterceptors = [] } = ServerOptions
+export function bind(wss: WS.Server, data: Awaited<ReturnType<typeof Factory>>, opts: DefaultOptions = {}) {
+  const { globalGuards, globalInterceptors, globalFilter, globalPipe } = opts
   const { moduleMap, meta } = data
 
   const metaMap = new Map<string, Record<string, ControllerMeta>>()
@@ -21,8 +18,7 @@ export function bind(wss: WS.Server, data: Awaited<ReturnType<typeof Factory>>, 
         continue
 
       debug(`register method "${func}" in module "${tag}"`)
-      item.data.guards = [...globalGuards, ...item.data.guards]
-      item.data.interceptors = [...globalInterceptors, ...item.data.interceptors]
+
       if (metaMap.has(tag))
         metaMap.get(tag)![func] = item as ControllerMeta
 
@@ -57,7 +53,7 @@ export function bind(wss: WS.Server, data: Awaited<ReturnType<typeof Factory>>, 
         }
         const context = new Context<WsContext>(contextData)
 
-        await context.run(returnData => returnData, (err) => {
+        await context.run({ globalGuards, globalInterceptors, globalFilter, globalPipe }, returnData => returnData, (err) => {
           wss.emit('error', err)
         })
       }
