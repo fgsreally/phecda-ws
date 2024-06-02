@@ -2,6 +2,7 @@ import type WS from 'ws'
 import { Context, HMR, detectAopDep } from 'phecda-server'
 import type { ControllerMeta, DefaultOptions, Factory } from 'phecda-server'
 import Debug from 'debug'
+import WebSocket from 'ws'
 import type { ClientEvents, WsContext } from './types'
 const debug = Debug('phecda-server/ws')
 
@@ -48,7 +49,10 @@ export function bind(wss: WS.Server, data: Awaited<ReturnType<typeof Factory>>, 
             ws.send(JSON.stringify({ event, data }))
           },
           broadcast<Event extends keyof ClientEvents>(event: Event, data: ClientEvents[Event]) {
-            wss.clients.forEach(ws => ws.send(JSON.stringify({ event, data })))
+            wss.clients.forEach((socket) => {
+              if (ws !== socket && socket.readyState === WebSocket.OPEN)
+                socket.send(JSON.stringify({ event, data }))
+            })
           },
         }
         const context = new Context<WsContext>(contextData)
