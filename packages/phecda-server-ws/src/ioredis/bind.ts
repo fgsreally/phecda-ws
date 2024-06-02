@@ -3,12 +3,38 @@ import { Context, HMR, detectAopDep } from 'phecda-server'
 import type { ControllerMeta, DefaultOptions, Factory } from 'phecda-server'
 import Debug from 'debug'
 import WebSocket from 'ws'
-import type { ClientEvents, WsContext } from './types'
+import { nanoid } from 'nanoid'
+import type { Redis } from 'ioredis'
+import type { ClientEvents, WsContext } from '../types'
 const debug = Debug('phecda-server/ws')
 
-export function bind(wss: WS.Server, data: Awaited<ReturnType<typeof Factory>>, opts: DefaultOptions = {}) {
-  const { globalGuards, globalInterceptors, globalFilter, globalPipe } = opts
+declare module 'ws' {
+  interface Server {
+    uid: string
+  }
+}
+
+export interface RedisWsOptions extends DefaultOptions {
+  channel?: string
+}
+
+// return redis instance that subscribe
+export function bind(wss: WS.Server, pub: Redis, sub: Redis, data: Awaited<ReturnType<typeof Factory>>, opts: RedisWsOptions = {}) {
+  const { globalGuards, globalInterceptors, globalFilter, globalPipe, channel = 'phecda-server-ws' } = opts
   const { moduleMap, meta } = data
+  wss.uid = nanoid()
+
+  sub.on('message', (c, message) => {
+    if (channel === c) {
+      const [uuid, content] = message.split('>', 2)
+      if (wss.uid !== uuid) {
+        wss.clients.forEach((socket) => {
+          if (socket.readyState === WebSocket.OPEN)
+            socket.send(content)
+        })
+      }
+    }
+  })
 
   const metaMap = new Map<string, Record<string, ControllerMeta>>()
   function handleMeta() {
@@ -54,6 +80,7 @@ export function bind(wss: WS.Server, data: Awaited<ReturnType<typeof Factory>>, 
               if (ws !== socket && socket.readyState === WebSocket.OPEN)
                 socket.send(message)
             })
+            pub.publish(channel, `${wss.uid}>${message}`)
           },
         }
         const context = new Context<WsContext>(contextData)
@@ -80,4 +107,6 @@ export function bind(wss: WS.Server, data: Awaited<ReturnType<typeof Factory>>, 
     }, 'ws')
     handleMeta()
   })
+
+  return sub
 }
