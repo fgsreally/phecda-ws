@@ -1,5 +1,14 @@
 # phecda-server-ws
 
+## 1.0.2
+
+### Patch Changes
+
+- d811e40: fix broadcast
+- d53bb77: add isEventSentToClient
+  add includeCurrentConnect param to broadcast
+- 6aa4e19: support cluster mode using redis
+
 ## 1.0.1
 
 ### Patch Changes
