@@ -78,14 +78,14 @@ export function bind(wss: WS.Server, pub: Redis, sub: Redis, data: Awaited<Retur
             if (await isEventSentToClient(ws, event, data))
               ws.send(JSON.stringify({ event, data }))
           },
-          async broadcast<Event extends keyof ClientEvents>(event: Event, data: ClientEvents[Event]) {
+          async broadcast<Event extends keyof ClientEvents>(event: Event, data: ClientEvents[Event], includeCurrentConnect = false) {
             const message = JSON.stringify({ event, data })
 
             pub.publish(channel, `${wss.uid}>${message}`)
 
             await Promise.all([...wss.clients].map(async (socket) => {
               if (await isEventSentToClient(socket, event, data)) {
-                if (ws !== socket && socket.readyState === WebSocket.OPEN)
+                if ((includeCurrentConnect || ws !== socket) && socket.readyState === WebSocket.OPEN)
                   socket.send(message)
               }
             }))

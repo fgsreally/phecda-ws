@@ -3,3 +3,4 @@
 ---
 
 add isEventSentToClient
+add includeCurrentConnect param to broadcast

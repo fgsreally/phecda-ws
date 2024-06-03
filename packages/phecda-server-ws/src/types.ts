@@ -14,7 +14,7 @@ export interface ClientEvents {
 export interface WsContext extends BaseContext {
   type: 'ws'
   send<Event extends keyof ClientEvents>(event: Event, data: ClientEvents[Event]): Promise<void>
-  broadcast<Event extends keyof ClientEvents>(event: Event, data: ClientEvents[Event]): Promise<void>
+  broadcast<Event extends keyof ClientEvents>(event: Event, data: ClientEvents[Event], includeCurrentConnect?: boolean): Promise<void>
 
   app: WS.Server
   websocket: WS
