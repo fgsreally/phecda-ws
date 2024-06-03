@@ -1,13 +1,13 @@
 import type WS from 'ws'
 import { Context, HMR, detectAopDep } from 'phecda-server'
-import type { ControllerMeta, DefaultOptions, Factory } from 'phecda-server'
+import type { ControllerMeta, Factory } from 'phecda-server'
 import Debug from 'debug'
 import WebSocket from 'ws'
-import type { ClientEvents, WsContext } from './types'
+import type { ClientEvents, WsContext, WsOptions } from './types'
 const debug = Debug('phecda-server/ws')
 
-export function bind(wss: WS.Server, data: Awaited<ReturnType<typeof Factory>>, opts: DefaultOptions = {}) {
-  const { globalGuards, globalInterceptors, globalFilter, globalPipe } = opts
+export function bind(wss: WS.Server, data: Awaited<ReturnType<typeof Factory>>, opts: WsOptions = {}) {
+  const { globalGuards, globalInterceptors, globalFilter, globalPipe, isEventSentToClient = () => true } = opts
   const { moduleMap, meta } = data
 
   const metaMap = new Map<string, Record<string, ControllerMeta>>()
@@ -45,15 +45,19 @@ export function bind(wss: WS.Server, data: Awaited<ReturnType<typeof Factory>>, 
           app: wss,
           websocket: ws,
           args,
-          send<Event extends keyof ClientEvents>(event: Event, data: ClientEvents[Event]) {
-            ws.send(JSON.stringify({ event, data }))
+          async send<Event extends keyof ClientEvents>(event: Event, data: ClientEvents[Event]) {
+            if (await isEventSentToClient?.(ws, event, data))
+              ws.send(JSON.stringify({ event, data }))
           },
-          broadcast<Event extends keyof ClientEvents>(event: Event, data: ClientEvents[Event]) {
+          async broadcast<Event extends keyof ClientEvents>(event: Event, data: ClientEvents[Event]) {
             const message = JSON.stringify({ event, data })
-            wss.clients.forEach((socket) => {
-              if (ws !== socket && socket.readyState === WebSocket.OPEN)
-                socket.send(message)
-            })
+
+            await Promise.all([...wss.clients].map(async (socket) => {
+              if (await isEventSentToClient?.(socket, event, data)) {
+                if (ws !== socket && socket.readyState === WebSocket.OPEN)
+                  socket.send(message)
+              }
+            }))
           },
         }
         const context = new Context<WsContext>(contextData)

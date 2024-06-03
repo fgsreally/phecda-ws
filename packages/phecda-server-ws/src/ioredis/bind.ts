@@ -1,11 +1,11 @@
 import type WS from 'ws'
 import { Context, HMR, detectAopDep } from 'phecda-server'
-import type { ControllerMeta, DefaultOptions, Factory } from 'phecda-server'
+import type { ControllerMeta, Factory } from 'phecda-server'
 import Debug from 'debug'
 import WebSocket from 'ws'
 import { nanoid } from 'nanoid'
 import type { Redis } from 'ioredis'
-import type { ClientEvents, WsContext } from '../types'
+import type { ClientEvents, WsContext, WsOptions } from '../types'
 const debug = Debug('phecda-server/ws')
 
 declare module 'ws' {
@@ -14,13 +14,13 @@ declare module 'ws' {
   }
 }
 
-export interface RedisWsOptions extends DefaultOptions {
+export interface RedisWsOptions extends WsOptions {
   channel?: string
 }
 
 // return redis instance that subscribe
 export function bind(wss: WS.Server, pub: Redis, sub: Redis, data: Awaited<ReturnType<typeof Factory>>, opts: RedisWsOptions = {}) {
-  const { globalGuards, globalInterceptors, globalFilter, globalPipe, channel = 'phecda-server-ws' } = opts
+  const { globalGuards, globalInterceptors, globalFilter, globalPipe, channel = 'phecda-server-ws', isEventSentToClient = () => true } = opts
   const { moduleMap, meta } = data
   wss.uid = nanoid()
 
@@ -28,9 +28,12 @@ export function bind(wss: WS.Server, pub: Redis, sub: Redis, data: Awaited<Retur
     if (channel === c) {
       const [uuid, content] = message.split('>', 2)
       if (wss.uid !== uuid) {
-        wss.clients.forEach((socket) => {
-          if (socket.readyState === WebSocket.OPEN)
-            socket.send(content)
+        const { event, data } = JSON.parse(content)
+        wss.clients.forEach(async (socket) => {
+          if (await isEventSentToClient(socket, event, data)) {
+            if (socket.readyState === WebSocket.OPEN)
+              socket.send(content)
+          }
         })
       }
     }
@@ -71,16 +74,21 @@ export function bind(wss: WS.Server, pub: Redis, sub: Redis, data: Awaited<Retur
           app: wss,
           websocket: ws,
           args,
-          send<Event extends keyof ClientEvents>(event: Event, data: ClientEvents[Event]) {
-            ws.send(JSON.stringify({ event, data }))
+          async send<Event extends keyof ClientEvents>(event: Event, data: ClientEvents[Event]) {
+            if (await isEventSentToClient(ws, event, data))
+              ws.send(JSON.stringify({ event, data }))
           },
-          broadcast<Event extends keyof ClientEvents>(event: Event, data: ClientEvents[Event]) {
+          async broadcast<Event extends keyof ClientEvents>(event: Event, data: ClientEvents[Event]) {
             const message = JSON.stringify({ event, data })
-            wss.clients.forEach((socket) => {
-              if (ws !== socket && socket.readyState === WebSocket.OPEN)
-                socket.send(message)
-            })
+
             pub.publish(channel, `${wss.uid}>${message}`)
+
+            await Promise.all([...wss.clients].map(async (socket) => {
+              if (await isEventSentToClient(socket, event, data)) {
+                if (ws !== socket && socket.readyState === WebSocket.OPEN)
+                  socket.send(message)
+              }
+            }))
           },
         }
         const context = new Context<WsContext>(contextData)
