@@ -16,7 +16,9 @@ exports[`meta 1`] = `
   Meta {
     "data": {
       "controller": "ws",
-      "ctx": "context",
+      "ctxs": Set {
+        "context",
+      },
       "define": {},
       "filter": undefined,
       "func": "add",
@@ -50,7 +52,9 @@ exports[`meta when bind 1`] = `
   Meta {
     "data": {
       "controller": "ws",
-      "ctx": "context",
+      "ctxs": Set {
+        "context",
+      },
       "define": {},
       "filter": undefined,
       "func": "add",
