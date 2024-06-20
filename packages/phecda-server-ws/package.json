@@ -1,11 +1,14 @@
 {
   "name": "phecda-server-ws",
-  "version": "1.0.2",
+  "version": "1.1.0",
   "description": "provide ws function to phecda-server",
   "author": "fgsreally",
   "license": "MIT",
   "repository": "https://github.com/fgsreally/phecda-ws/tree/main/packages/phecda-server-ws",
-  "keywords": ["ws", "phecda-server"],
+  "keywords": [
+    "ws",
+    "phecda-server"
+  ],
   "exports": {
     ".": {
       "require": "./dist/index.js",
