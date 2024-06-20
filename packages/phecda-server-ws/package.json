@@ -1,23 +1,24 @@
 {
   "name": "phecda-server-ws",
   "version": "1.0.1",
-  "description": "",
-  "main": "dist/index.js",
-  "module": "dist/index.mjs",
-  "types": "dist/index.d.ts",
-  "files": [
-    "dist"
-  ],
+  "description": "provide ws function to phecda-server",
+  "author": "fgsreally",
+  "license": "MIT",
+  "repository": "https://github.com/fgsreally/phecda-ws/tree/main/packages/phecda-server-ws",
+  "keywords": ["ws", "phecda-server"],
   "exports": {
     ".": {
-      "import": "./dist/index.mjs",
-      "require": "./dist/index.js"
+      "require": "./dist/index.js",
+      "import": "./dist/index.mjs"
     },
     "./ioredis": {
       "require": "./dist/ioredis/index.js",
       "import": "./dist/ioredis/index.mjs"
     }
   },
+  "main": "dist/index.js",
+  "module": "dist/index.mjs",
+  "types": "dist/index.d.ts",
   "typesVersions": {
     "*": {
       ".": [
@@ -28,17 +29,17 @@
       ]
     }
   },
+  "files": [
+    "dist"
+  ],
   "scripts": {
     "dev": "tsup --watch",
     "build": "tsup"
   },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
   "dependencies": {
     "debug": "^4.3.4",
     "nanoid": "^5.0.7",
-    "phecda-server": "^5.0.1",
+    "phecda-server": "^5.2.0",
     "ws": "^8.17.0"
   },
   "devDependencies": {

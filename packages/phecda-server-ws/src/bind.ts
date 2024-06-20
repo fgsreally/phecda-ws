@@ -1,5 +1,6 @@
 import type WS from 'ws'
-import { Context, HMR, detectAopDep } from 'phecda-server'
+import { Context } from 'phecda-server'
+import { HMR, detectAopDep } from 'phecda-server/helper'
 import type { ControllerMeta, Factory } from 'phecda-server'
 import Debug from 'debug'
 import WebSocket from 'ws'

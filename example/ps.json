@@ -1,11 +1,11 @@
 {
-  "$schema": "node_modules/phecda-server/bin/schema.json",
+  "$schema": "./node_modules/phecda-server/assets/schema.json",
   "resolve": [
 
     {
       "source": "ws",
       "importer": "client",
-      "path": ".ps/ws.ts"
+      "path": ".ps/ws.js"
     }
   ],
 

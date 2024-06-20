@@ -1,22 +1,22 @@
 {
   "name": "example",
-  "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
   "type": "module",
+  "version": "1.0.0",
   "private": true,
+  "description": "",
+  "author": "",
+  "license": "ISC",
+  "keywords": [],
+  "main": "index.js",
   "scripts": {
     "dev": "vite",
     "server": "phecda src/server/server.ts"
   },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
   "dependencies": {
     "@types/ws": "^8.5.10",
     "phecda-client": "2.0.4",
     "phecda-client-ws": "workspace:^",
-    "phecda-server": "^5.0.1",
+    "phecda-server": "^5.2.0",
     "phecda-server-ws": "workspace:^",
     "ws": "^8.17.0"
   },

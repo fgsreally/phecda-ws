@@ -8,6 +8,8 @@ export class TestWs {
 
   @On
   add(@Arg data: { name: string }) {
-    this.context.broadcast('test', data)
+    // eslint-disable-next-line no-console
+    console.log('data:', data)
+    this.context.broadcast('test', data, true)
   }
 }

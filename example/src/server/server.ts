@@ -4,7 +4,7 @@ import { WebSocketServer } from 'ws'
 import { TestWs } from './test.ws'
 
 const data = await Factory([TestWs], {
-  generators: [new WSGenerator('.ps/ws.ts')],
+  generators: [new WSGenerator()],
 })
 const server = new WebSocketServer({ port: 3001 })
 
