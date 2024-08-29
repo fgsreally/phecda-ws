@@ -1,15 +1,17 @@
-import { setPropertyState } from 'phecda-server'
+import { setMeta } from 'phecda-server'
 
 export function Ws() {
   return (target: any) => {
-    setPropertyState(target, undefined, (state) => {
-      state.controller = 'ws'
+    setMeta(target, undefined, undefined, {
+      controller: 'ws',
     })
   }
 }
 
-export function On(target: any, k: PropertyKey) {
-  setPropertyState(target, k, (state) => {
-    state.ws = { on: true }
+export function On(target: any, property: PropertyKey) {
+  setMeta(target, property, undefined, {
+    ws: {
+      on: true,
+    },
   })
 }

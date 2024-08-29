@@ -9,3 +9,6 @@ const data = await Factory([TestWs], {
 const server = new WebSocketServer({ port: 3001 })
 
 bind(server, data)
+
+// eslint-disable-next-line no-console
+console.log('start listen...')

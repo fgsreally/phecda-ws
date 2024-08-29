@@ -42,7 +42,7 @@
   "dependencies": {
     "debug": "^4.3.4",
     "nanoid": "^5.0.7",
-    "phecda-server": "^5.2.0",
+    "phecda-server": "^6.0.0",
     "ws": "^8.17.0"
   },
   "devDependencies": {

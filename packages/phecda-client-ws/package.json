@@ -21,7 +21,7 @@
     "build": "tsup"
   },
   "devDependencies": {
-    "phecda-server": "^5.2.0",
+    "phecda-server": "^6.0.0",
     "phecda-server-ws": "workspace:^",
     "tsup": "^8.0.2"
   }
