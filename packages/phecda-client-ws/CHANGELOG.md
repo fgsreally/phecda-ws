@@ -1,5 +1,11 @@
 # phecda-client-ws
 
+## 2.0.0
+
+### Major Changes
+
+- 4175a31: support phecda-server v6
+
 ## 1.1.0
 
 ### Minor Changes
